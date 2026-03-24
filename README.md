@@ -2,31 +2,68 @@
 
 Visual logic blocks are compiled to CSV, executed by a Python runner (Tkinter + MySQL), then execution statuses are sent to the Electron app over WebSocket so blocks can be colored (success / failure).
 
-## Repo layout (target)
+## Repo layout
 
-- `electron/` – Electron + Blockly app (Compile / Run)
+- `electron/` – Electron app (Blockly + Compile / Run in later phases)
 - `backend/` – Python runner, executor, DB, Tkinter UI
 - `test_table.sql` – provided MySQL schema + sample data
 
 ## WebSocket strategy
 
-The app will pick a **random free port** for the WebSocket server when you click **Run**, pass `ws://127.0.0.1:<port>` into the Python process, and Python will connect **after** it finishes processing the CSV (per assignment).
+On **Run**, the app will choose a **random free port** for the WebSocket server, pass `ws://127.0.0.1:<port>` to Python, and Python will connect **after** it finishes processing the CSV (per assignment).
 
-## Local prerequisites
+## Prerequisites
 
-- Node.js (LTS) and npm
-- Python 3.12+
-- MySQL or MariaDB
+- Node.js (LTS) and npm  
+- Python 3.12+  
+- MySQL or MariaDB  
 
-## Database
+## Phase 1 – verify the shell
+
+### Electron
+
+```bash
+cd electron
+npm install
+npm start
+```
+
+You should see a window with **dynamic paths** (CSV output dir, `backend` folder, `runner.py`). `electron/csv_output/` is created at startup if missing.
+
+### Python backend (stub)
+
+From the **repository root**:
+
+```bash
+cd backend
+python -m venv .venv
+```
+
+Activate (Windows PowerShell):
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python runner.py --csv "D:\example\compiled.csv" --ws "ws://127.0.0.1:0"
+```
+
+You should see the stub log lines (no real execution yet).
+
+### Database
 
 Import `test_table.sql` into your server (creates `test_database` and `test_table`).
 
-Copy `.env.example` to `.env` and set credentials.
+Copy `.env.example` to `.env` at the repo root and set credentials (`.env` is gitignored).
 
-## Setup (after implementation)
+## Environment variables
 
-Instructions will be added when `electron/` and `backend/` are in place.
+| Variable | Purpose |
+|----------|---------|
+| `MYSQL_HOST` | DB host |
+| `MYSQL_PORT` | DB port |
+| `MYSQL_USER` | DB user |
+| `MYSQL_PASSWORD` | DB password |
+| `MYSQL_DATABASE` | e.g. `test_database` |
 
 ## License / use
 

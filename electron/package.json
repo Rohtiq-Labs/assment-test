@@ -1,0 +1,13 @@
+{
+  "name": "smh-blockly-electron",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Electron shell for SMH Blockly assignment",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^33.2.1"
+  }
+}
