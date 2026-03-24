@@ -4,7 +4,7 @@ Visual logic blocks are compiled to CSV, executed by a Python runner (Tkinter + 
 
 ## Repo layout
 
-- `electron/` – Electron app (Blockly + Compile / Run in later phases)
+- `electron/` – Electron app (Blockly + **Compile**; **Run** in a later phase)
 - `backend/` – Python runner, executor, DB, Tkinter UI
 - `test_table.sql` – provided MySQL schema + sample data
 
@@ -48,6 +48,23 @@ python runner.py --csv "D:\example\compiled.csv" --ws "ws://127.0.0.1:8765"
 ```
 
 You should see the stub log lines (no real execution yet).
+
+## Phase 2 – Blockly and Compile
+
+1. Run the Electron app as above.
+2. Drag blocks from the flyout: **math**, **if**, **repeat**, **fetch DB**. Connect blocks into one or more stacks (each disconnected stack is compiled in workspace order).
+3. Click **Compile**. On success, rows are written to **`electron/csv_output/compiled.csv`** (overwritten each time).
+
+### CSV format
+
+Header: `block_id,block_type,params,order_index`
+
+| `block_type` | `params` (JSON) |
+|--------------|-----------------|
+| `math` | `{ "op": "add" \| "subtract" \| "multiply" \| "divide", "a": number, "b": number }` |
+| `if_else` | `{ "left": number, "operator": ">" \| "<" \| "==" \| ">=" \| "<=", "right": number }` |
+| `for_loop` | `{ "count": integer }` (1–100) |
+| `fetch_db` | `{ "query": string }` — must be a single **SELECT** that references **`test_table`**. |
 
 ### Database
 

@@ -5,40 +5,87 @@
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
-  padding: 1.25rem;
+  padding: 0.75rem 1rem 1rem;
   background: #f4f4f5;
   color: #18181b;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 header h1 {
   margin: 0 0 0.25rem;
-  font-size: 1.35rem;
+  font-size: 1.25rem;
 }
 
 .muted {
   color: #71717a;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
+  margin: 0 0 0.5rem;
 }
 
-#paths {
-  white-space: pre-wrap;
-  font-family: ui-monospace, monospace;
-  font-size: 0.8rem;
-  background: #fff;
-  border: 1px solid #e4e4e7;
-  border-radius: 6px;
-  padding: 0.75rem;
-  margin: 1rem 0;
+.toolbar {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.35rem;
 }
 
 button {
   padding: 0.45rem 0.85rem;
   border-radius: 6px;
   border: 1px solid #d4d4d8;
-  background: #fff;
+  background: #18181b;
+  color: #fafafa;
   cursor: pointer;
+  font-size: 0.875rem;
+}
+
+button.secondary {
+  background: #fff;
+  color: #18181b;
 }
 
 button:hover {
-  background: #fafafa;
+  opacity: 0.92;
+}
+
+.status {
+  white-space: pre-wrap;
+  font-size: 0.8rem;
+  margin: 0 0 0.5rem;
+  min-height: 1.25rem;
+  color: #3f3f46;
+}
+
+#blocklyDiv {
+  flex: 1;
+  min-height: 420px;
+  border: 1px solid #e4e4e7;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.debug {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: #71717a;
+}
+
+.debug pre {
+  margin: 0.35rem 0 0;
+  padding: 0.5rem;
+  background: #fff;
+  border: 1px solid #e4e4e7;
+  border-radius: 6px;
+  overflow: auto;
+  max-height: 120px;
+}
+
+code {
+  font-size: 0.85em;
+  background: #e4e4e7;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
 }

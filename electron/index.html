@@ -3,20 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'" />
-    <title>SMH Blockly – Phase 1</title>
+    <!-- Blockly may require unsafe-eval for some initializer paths in Electron -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:;"
+    />
+    <title>SMH Blockly</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <header>
       <h1>SMH Blockly assignment</h1>
-      <p class="muted">Phase 1: Electron shell (Blockly in next phase).</p>
+      <p class="muted">Drag blocks, connect stacks, then Compile → <code>csv_output/compiled.csv</code></p>
     </header>
-    <main>
-      <p id="paths"></p>
-      <button type="button" id="btn-paths">Refresh paths</button>
-      <p id="ping-result" class="muted"></p>
-    </main>
+
+    <div class="toolbar">
+      <button type="button" id="btn-compile">Compile</button>
+      <button type="button" id="btn-paths" class="secondary">Refresh paths</button>
+    </div>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+
+    <div id="blocklyDiv" aria-label="Blockly workspace"></div>
+
+    <details class="debug">
+      <summary>Paths (debug)</summary>
+      <pre id="paths"></pre>
+    </details>
+
+    <script src="node_modules/blockly/blockly.min.js"></script>
     <script src="renderer.js"></script>
   </body>
 </html>

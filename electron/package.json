@@ -9,5 +9,8 @@
   },
   "devDependencies": {
     "electron": "^33.2.1"
+  },
+  "dependencies": {
+    "blockly": "^12.5.1"
   }
 }
