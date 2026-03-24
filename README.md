@@ -44,7 +44,7 @@ Activate (Windows PowerShell):
 ```powershell
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-python runner.py --csv "D:\example\compiled.csv" --ws "ws://127.0.0.1:0"
+python runner.py --csv "D:\example\compiled.csv" --ws "ws://127.0.0.1:8765"
 ```
 
 You should see the stub log lines (no real execution yet).
