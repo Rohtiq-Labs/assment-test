@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+.venv/
+env/
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+
+# Build & OS
+dist/
+build/
+out/
+.DS_Store
+Thumbs.db
+*.log
+
+# Electron
+*.asar
+
+# Python
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Generated / runtime (assignment CSV output)
+csv_output/
+
+# Editor
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Optional: keep assignment PDF local only (uncomment if you prefer not to push it)
+# *.pdf
