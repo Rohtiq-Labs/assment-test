@@ -95,7 +95,9 @@
     }
   ];
 
-  const TOOLBOX = {
+  Blockly.defineBlocksWithJsonArray(BLOCK_DEFS);
+
+  const toolbox = {
     kind: 'flyoutToolbox',
     contents: [
       { kind: 'block', type: 'smh_math' },
@@ -105,10 +107,8 @@
     ]
   };
 
-  Blockly.defineBlocksWithJsonArray(BLOCK_DEFS);
-
   const workspace = Blockly.inject('blocklyDiv', {
-    toolbox: TOOLBOX,
+    toolbox,
     media: 'node_modules/blockly/media/',
     grid: {
       spacing: 20,
@@ -117,8 +117,38 @@
       snap: true
     },
     trashcan: true,
-    sounds: false
+    sounds: false,
+    toolboxPosition: 'start'
   });
+
+  const blocklyDiv = document.getElementById('blocklyDiv');
+  if (!blocklyDiv) {
+    throw new Error('Missing #blocklyDiv');
+  }
+
+  const resizeBlockly = () => {
+    Blockly.svgResize(workspace);
+    const flyout = workspace.getFlyout && workspace.getFlyout();
+    if (flyout && typeof flyout.setVisible === 'function') {
+      flyout.setVisible(true);
+    }
+  };
+
+  // In Electron + flex layouts, the container height settles after inject.
+  // Use ResizeObserver so the SVG always matches the container size.
+  const ro = new ResizeObserver(() => resizeBlockly());
+  ro.observe(blocklyDiv);
+
+  // Also kick a few resizes after startup for reliability.
+  resizeBlockly();
+  requestAnimationFrame(() => resizeBlockly());
+  setTimeout(() => resizeBlockly(), 250);
+  setTimeout(() => {
+    if (typeof workspace.updateToolbox === 'function') {
+      workspace.updateToolbox(toolbox);
+    }
+    resizeBlockly();
+  }, 0);
 
   const statusEl = document.getElementById('status');
   const pathsEl = document.getElementById('paths');
@@ -128,6 +158,32 @@
   const setStatus = (text) => {
     statusEl.textContent = text;
   };
+
+  const showBlocklyDebug = () => {
+    const categoryCount = 0;
+    const blockCount = Array.isArray(toolbox.contents) ? toolbox.contents.length : 0;
+    const toolboxDiv = document.querySelector('.blocklyToolboxDiv');
+    const flyoutDiv = document.querySelector('.blocklyFlyout');
+    const mainWs = Blockly.getMainWorkspace && Blockly.getMainWorkspace();
+    const flyoutWs = workspace.getFlyout && workspace.getFlyout() && workspace.getFlyout().getWorkspace
+      ? workspace.getFlyout().getWorkspace()
+      : null;
+    const flyoutBlockCount =
+      flyoutWs && flyoutWs.getAllBlocks ? flyoutWs.getAllBlocks(false).length : 0;
+
+    setStatus(
+      [
+        `Debug: toolbox xml categories=${categoryCount} blocks=${blockCount}`,
+        `Debug: .blocklyToolboxDiv=${toolboxDiv ? 'present' : 'missing'}`,
+        `Debug: .blocklyFlyout=${flyoutDiv ? 'present' : 'missing'}`,
+        `Debug: mainWorkspace=${mainWs ? 'present' : 'missing'}`,
+        `Debug: flyoutBlocks=${flyoutBlockCount}`
+      ].join('\n')
+    );
+  };
+
+  // Show a quick on-screen debug readout at startup.
+  setTimeout(showBlocklyDebug, 50);
 
   const validateFetchQuery = (raw) => {
     const q = String(raw).trim();

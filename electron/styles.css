@@ -2,6 +2,11 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
@@ -61,10 +66,22 @@ button:hover {
 #blocklyDiv {
   flex: 1;
   min-height: 420px;
+  position: relative;
   border: 1px solid #e4e4e7;
   border-radius: 8px;
   overflow: hidden;
   background: #fff;
+}
+
+/* Ensure Blockly toolbox/flyout isn't visually suppressed */
+.blocklyToolboxDiv {
+  display: block;
+}
+
+/* Ensure Blockly SVG actually fills the container */
+.blocklySvg {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .debug {
