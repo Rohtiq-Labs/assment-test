@@ -70,7 +70,17 @@ Header: `block_id,block_type,params,order_index`
 
 Import `test_table.sql` into your server (creates `test_database` and `test_table`).
 
-Copy `.env.example` to `.env` at the repo root and set credentials (`.env` is gitignored).
+Create a file named **`.env`** at the **repo root** (same folder as this README). It is listed in `.gitignore` and must **not** be committed. Use your real MySQL credentials (XAMPP default is often `root` with an empty password):
+
+```env
+MYSQL_HOST=127.0.0.1
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PASSWORD=
+MYSQL_DATABASE=test_database
+```
+
+`runner.py` loads only `.env` from the repo root.
 
 ## Environment variables
 
