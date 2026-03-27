@@ -31,8 +31,10 @@ const createWindow = () => {
   ensureCsvOutputDir();
 
   mainWindow = new BrowserWindow({
-    width: 1100,
-    height: 820,
+    title: 'SMH Blockly',
+    width: 1120,
+    height: 840,
+    backgroundColor: '#f4f8f7',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,

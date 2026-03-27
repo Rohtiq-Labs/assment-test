@@ -12,27 +12,46 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header>
-      <h1>SMH Blockly assignment</h1>
-      <p class="muted">Drag blocks, connect stacks, then Compile → <code>csv_output/compiled.csv</code></p>
-    </header>
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div class="header-text">
+          <h1>SMH Blockly</h1>
+          <p class="tagline">Interview build — visual logic → CSV → Python + MySQL</p>
+          <p class="muted">
+            Drag blocks into stacks, then <strong>Compile</strong> to
+            <code>csv_output/compiled.csv</code>, then <strong>Run</strong>.
+          </p>
+        </div>
+      </header>
 
-    <div class="toolbar">
-      <button type="button" id="btn-compile">Compile</button>
-      <button type="button" id="btn-run" class="secondary">Run</button>
-      <button type="button" id="btn-paths" class="secondary">Refresh paths</button>
+      <div class="toolbar" role="toolbar" aria-label="Workspace actions">
+        <div class="toolbar-group toolbar-group--primary">
+          <button type="button" id="btn-compile" class="btn btn-primary">Compile</button>
+          <button type="button" id="btn-run" class="btn btn-primary-alt">Run</button>
+        </div>
+        <div class="toolbar-group">
+          <button type="button" id="btn-paths" class="btn btn-ghost">Refresh paths</button>
+        </div>
+      </div>
+
+      <div class="status-panel">
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+      </div>
+
+      <div id="blocklyDiv" class="blockly-surface" aria-label="Blockly workspace"></div>
+
+      <details class="debug">
+        <summary>Paths (debug)</summary>
+        <pre id="paths"></pre>
+      </details>
     </div>
-    <p id="status" class="status" role="status" aria-live="polite"></p>
-
-    <div id="blocklyDiv" aria-label="Blockly workspace"></div>
-
-    <details class="debug">
-      <summary>Paths (debug)</summary>
-      <pre id="paths"></pre>
-    </details>
 
     <xml id="toolbox" style="display: none" xmlns="https://developers.google.com/blockly/xml">
-      <block type="smh_math"></block>
+      <block type="smh_set_var"></block>
+      <block type="smh_number"></block>
+      <block type="smh_get_var"></block>
+      <block type="smh_math_expr"></block>
       <block type="smh_if_else"></block>
       <block type="smh_for_loop"></block>
       <block type="smh_fetch_db"></block>

@@ -24,6 +24,7 @@
     ['z', 'z']
   ];
 
+  // Blockly `colour` is hue 0–360 — distinct families per block type.
   const BLOCK_DEFS = [
     // Expressions
     {
@@ -44,7 +45,7 @@
         }
       ],
       output: 'Number',
-      colour: 60
+      colour: 300
     },
     {
       type: 'smh_math_expr',
@@ -144,6 +145,35 @@
 
   Blockly.defineBlocksWithJsonArray(BLOCK_DEFS);
 
+  let smhBlocklyTheme = null;
+  try {
+    if (
+      Blockly.Theme &&
+      typeof Blockly.Theme.defineTheme === 'function' &&
+      Blockly.Themes &&
+      Blockly.Themes.Classic
+    ) {
+      smhBlocklyTheme = Blockly.Theme.defineTheme('smh_interview', {
+        base: Blockly.Themes.Classic,
+        componentStyles: {
+          workspaceBackgroundColour: '#f7faf9',
+          toolboxBackgroundColour: '#e6f3f2',
+          toolboxForegroundColour: '#0f172a',
+          flyoutBackgroundColour: '#e6f3f2',
+          flyoutForegroundColour: '#0f172a',
+          scrollbarColour: '#0c6866',
+          insertionMarkerColour: '#0c6866',
+          insertionMarkerOpacity: 0.35,
+          scrollbarOpacity: 0.55
+        }
+      });
+    }
+  } catch (e) {
+    if (typeof console !== 'undefined' && console.warn) {
+      console.warn('[SMH Blockly] theme skipped:', e);
+    }
+  }
+
   const toolbox = {
     kind: 'flyoutToolbox',
     contents: [
@@ -159,11 +189,12 @@
 
   const workspace = Blockly.inject('blocklyDiv', {
     toolbox,
+    ...(smhBlocklyTheme ? { theme: smhBlocklyTheme } : {}),
     media: 'node_modules/blockly/media/',
     grid: {
       spacing: 20,
       length: 3,
-      colour: '#ddd',
+      colour: '#cfe8e6',
       snap: true
     },
     trashcan: true,
@@ -212,8 +243,7 @@
 
   const SUCCESS_HUE = 140;
   const FAILURE_HUE = 0;
-  const SKIPPED_HUE = 0;
-  const SKIPPED_GREYSCALE = '#a1a1aa';
+  const SKIPPED_GREYSCALE = '#94a3b8';
   let runIsActive = false;
   let runLogLines = [];
   let originalColoursById = new Map();
@@ -323,8 +353,14 @@
     );
   };
 
-  // Show a quick on-screen debug readout at startup.
-  setTimeout(showBlocklyDebug, 50);
+  // Dev: set true to print toolbox/workspace debug to the browser console only.
+  const DEBUG_BLOCKLY_LAYOUT = false;
+  if (DEBUG_BLOCKLY_LAYOUT) {
+    setTimeout(() => {
+      showBlocklyDebug();
+      console.log('Blockly layout debug (toolbar/flyout counts).');
+    }, 50);
+  }
 
   const normalizeFetchQuery = (raw) => {
     let q = String(raw).trim();

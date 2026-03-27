@@ -1,3 +1,22 @@
+:root {
+  --color-brand: #0c6866;
+  --color-brand-hover: #095350;
+  --color-brand-light: #e6f3f2;
+  --color-brand-muted: rgba(12, 104, 102, 0.14);
+  --color-bg: #f4f8f7;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.07);
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'SF Mono', Consolas, monospace;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -9,100 +28,238 @@ body {
 
 body {
   margin: 0;
-  font-family: system-ui, sans-serif;
-  padding: 0.75rem 1rem 1rem;
-  background: #f4f4f5;
-  color: #18181b;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--color-text);
+  background: var(--color-bg);
+  background-image: radial-gradient(
+    ellipse 120% 80% at 100% -20%,
+    rgba(12, 104, 102, 0.12),
+    transparent 55%
+  );
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-header h1 {
-  margin: 0 0 0.25rem;
-  font-size: 1.25rem;
+.app-shell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 1.25rem 1.5rem 1.5rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.app-header {
+  display: flex;
+  gap: 1rem;
+  align-items: stretch;
+  margin-bottom: 1rem;
+}
+
+.brand-mark {
+  width: 5px;
+  min-height: 4.5rem;
+  background: linear-gradient(180deg, var(--color-brand) 0%, #0a7a77 100%);
+  border-radius: 3px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(12, 104, 102, 0.25);
+}
+
+.header-text h1 {
+  margin: 0 0 0.2rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+
+.tagline {
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-brand);
 }
 
 .muted {
-  color: #71717a;
+  color: var(--color-text-muted);
   font-size: 0.875rem;
-  margin: 0 0 0.5rem;
+  margin: 0;
+  max-width: 52ch;
+}
+
+.muted strong {
+  color: var(--color-text);
+  font-weight: 600;
 }
 
 .toolbar {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.toolbar-group {
+  display: flex;
   gap: 0.5rem;
   align-items: center;
-  margin-bottom: 0.35rem;
 }
 
-button {
-  padding: 0.45rem 0.85rem;
-  border-radius: 6px;
-  border: 1px solid #d4d4d8;
-  background: #18181b;
-  color: #fafafa;
-  cursor: pointer;
+.toolbar-group--primary {
+  padding-right: 0.75rem;
+  border-right: 1px solid var(--color-border);
+}
+
+.btn {
+  padding: 0.5rem 1.1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
   font-size: 0.875rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease,
+    opacity 0.15s ease;
 }
 
-button.secondary {
-  background: #fff;
-  color: #18181b;
+.btn:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
 }
 
-button:hover {
-  opacity: 0.92;
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--color-brand);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-brand-hover);
+}
+
+.btn-primary-alt {
+  background: var(--color-surface);
+  color: var(--color-brand);
+  border-color: var(--color-brand);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary-alt:hover:not(:disabled) {
+  background: var(--color-brand-light);
+}
+
+.btn-ghost {
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  color: var(--color-text);
+  border-color: #cbd5e1;
+  background: #f8fafc;
+}
+
+.status-panel {
+  margin-bottom: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  min-height: 2.5rem;
+  max-height: 11rem;
+  overflow-y: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-brand);
+  box-shadow: var(--shadow-sm);
 }
 
 .status {
   white-space: pre-wrap;
-  font-size: 0.8rem;
-  margin: 0 0 0.5rem;
-  min-height: 1.25rem;
-  color: #3f3f46;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  margin: 0;
+  color: #334155;
 }
 
-#blocklyDiv {
+#blocklyDiv.blockly-surface {
   flex: 1;
   min-height: 420px;
   position: relative;
-  border: 1px solid #e4e4e7;
-  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  background: #fff;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
 }
 
-/* Ensure Blockly toolbox/flyout isn't visually suppressed */
 .blocklyToolboxDiv {
   display: block;
+  border-right: 1px solid var(--color-border) !important;
+  background: var(--color-brand-light) !important;
 }
 
-/* Ensure Blockly SVG actually fills the container */
+.blocklyFlyout {
+  box-shadow: 2px 0 8px rgba(15, 23, 42, 0.05);
+}
+
 .blocklySvg {
   width: 100% !important;
   height: 100% !important;
 }
 
 .debug {
-  margin-top: 0.75rem;
+  margin-top: 1rem;
   font-size: 0.8rem;
-  color: #71717a;
+  color: var(--color-text-muted);
+}
+
+.debug summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  padding: 0.25rem 0;
+}
+
+.debug summary:hover {
+  color: var(--color-brand);
 }
 
 .debug pre {
-  margin: 0.35rem 0 0;
-  padding: 0.5rem;
-  background: #fff;
-  border: 1px solid #e4e4e7;
-  border-radius: 6px;
+  margin: 0.4rem 0 0;
+  padding: 0.65rem 0.75rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
   overflow: auto;
   max-height: 120px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
 }
 
 code {
+  font-family: var(--font-mono);
   font-size: 0.85em;
-  background: #e4e4e7;
-  padding: 0.1em 0.35em;
+  background: var(--color-brand-light);
+  color: var(--color-brand-hover);
+  padding: 0.12em 0.4em;
   border-radius: 4px;
+  font-weight: 500;
 }
